@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/snailuncle/autojs-clipboard"
+    "url": "https://github.com/snailuncle/autojs-clipboard.git"
   },
   "homepage": "https://github.com/snailuncle/autojs-clipboard",
   "categories": [
