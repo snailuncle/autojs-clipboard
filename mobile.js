@@ -1,9 +1,7 @@
-// setClip("1111111111111111111111111111111111");
-// setTimeout(() => {
-//   setClip("22222222222222222222");
-// }, 1000);
-
 importClass(android.content.ClipboardManager);
+/**
+ * 请将ip改成你电脑的ip
+ */
 const IPAddressOfYourComputer = "192.168.101.4";
 const PORT = 7101;
 var clipboard = context.getSystemService(context.CLIPBOARD_SERVICE);
@@ -11,6 +9,8 @@ var Listener = new ClipboardManager.OnPrimaryClipChangedListener({
   onPrimaryClipChanged: function () {
     let value = getClip();
     if (value) {
+      value = value.toString();
+      value = encryptString(value);
       let url = "http://" + IPAddressOfYourComputer + ":" + PORT + "?clipboard=" + value;
       log(url);
       http.get(url, {}, function (res, err) {
@@ -24,12 +24,18 @@ var Listener = new ClipboardManager.OnPrimaryClipChangedListener({
   },
 });
 clipboard.addPrimaryClipChangedListener(Listener);
-// while (engines.all().length > 1) {
-//   clipboard.removePrimaryClipChangedListener(Listener);
-//   sleep(1000);
-// }
 events.on("exit", function () {
   clipboard.removePrimaryClipChangedListener(Listener);
 });
 
 setInterval(() => {}, 1000);
+
+function encryptString(data) {
+  data = java.lang.String(data).getBytes();
+  return base64Encode(data);
+}
+
+function base64Encode(r) {
+  var r = android.util.Base64.encodeToString(r, android.util.Base64.NO_WRAP);
+  return r;
+}

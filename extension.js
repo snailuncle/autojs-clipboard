@@ -43,6 +43,9 @@ function activate(context) {
         // const myURL = new URL("https://example.org/?clipboard=123678");
         let value = myURL.searchParams.get("clipboard");
         if (value) {
+          // base64反解析为字符串
+          value = value.replace(/ /g, "+");
+          value = Buffer.from(value, "base64").toString();
           setClipboardValue(value);
           res.end("ok");
         } else {
